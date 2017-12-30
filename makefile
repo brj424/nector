@@ -13,6 +13,7 @@ all : run quick quick-no-venv demo
 
 
 run :
+	python scripts/update-secret-key.py
 	python manage.py makemigrations
 	python manage.py migrate
 	python import-data.py
@@ -20,18 +21,22 @@ run :
 
 
 quick :
+	python scripts/update-secret-key.py
 	pip install -r requirements.txt
 	python manage.py makemigrations
 	python manage.py migrate
 	./update-database.sh
+	./install-phantomjs.sh
 	python manage.py runserver
 
 
 quick-no-venv :
+	python scripts/update-secret-key.py
 	sudo pip install -r requirements.txt
 	python manage.py makemigrations
 	python manage.py migrate
 	./update-database.sh
+	./install-phantomjs.sh
 	python manage.py runserver
 
 
@@ -41,6 +46,7 @@ demo :
 	cp -i sample-data/sample-events.csv events.csv
 	cp -i sample-data/sample-openports.xml openports.xml
 	cp -i sample-data/sample-malware.csv malware.csv
+	python scripts/update-secret-key.py
 	python manage.py makemigrations
 	python manage.py migrate
 	python import-data.py
